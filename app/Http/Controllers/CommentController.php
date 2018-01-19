@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Contracts\JiraUser;
+use App\Services\JiraUserService;
+use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 
 /**
@@ -9,11 +13,23 @@ use Illuminate\Http\Request;
  */
 class CommentController extends Controller
 {
+    /**
+     * @var JiraUserService
+     */
+    private $jiraUserService;
+
+    public function __construct()
+    {
+        $container = Container::getInstance();
+        $this->jiraUserService = $container->make(JiraUserService::class);
+    }
+
     public function created(Request $request)
     {
         echo 'Comment::Created';
-
-        exit;
+        $authorName = $request->input('comment.author.name');
+        $this->jiraUserService->getAuthorEmailFromUsername($authorName);
+        echo $authorName; exit;
     }
 
     public function updated()
