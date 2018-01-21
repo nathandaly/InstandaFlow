@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
-use App\Contracts\JiraUser;
+use App\Authorization;
+use App\Contracts\JiraUserInterface;
 
 /**
  * Class JiraUserService
  * @package App\Services
  */
-class JiraUserService extends JiraService implements JiraUser
+class JiraUserService extends JiraService implements JiraUserInterface
 {
     /**
      * @param $username
@@ -17,6 +18,10 @@ class JiraUserService extends JiraService implements JiraUser
     public function getAuthorEmailFromUsername($username): array
     {
         $response = $this->httpClient->request('GET', $this->apiUrl . 'user', [
+            'auth' => (new Authorization(HTTP_AUTH_BASIC))->header([
+                'username' => env('JIRA_USERNAME'),
+                'password' => env('JIRA_PASSWORD')
+            ]),
             'query' => [
                 'username' => $username
             ]

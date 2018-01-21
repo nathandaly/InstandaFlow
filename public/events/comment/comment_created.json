@@ -1,49 +1,49 @@
 {
-    "timestamp": 1516368929672,
+    "timestamp": 1516527739796,
     "webhookEvent": "comment_created",
     "comment": {
-        "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/issue\/10261\/comment\/10208",
-        "id": "10208",
+        "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/issue\/10226\/comment\/10209",
+        "id": "10209",
         "author": {
-            "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=peter.hannon",
-            "name": "peter.hannon",
-            "key": "peter.hannon",
-            "accountId": "5a4d07b7f0c8ef2ca832b9d5",
+            "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=nathan.daly",
+            "name": "nathan.daly",
+            "key": "nathan.daly",
+            "accountId": "5a2460a0c51854164d65b37a",
             "avatarUrls": {
-                "48x48": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
-                "24x24": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
-                "16x16": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
-                "32x32": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
+                "48x48": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
+                "24x24": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
+                "16x16": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
+                "32x32": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
             },
-            "displayName": "Pete Hannon",
+            "displayName": "Nathan Daly",
             "active": true,
             "timeZone": "Europe\/London"
         },
-        "body": "Reviewed by Chris\/Tom as sub-tasks were completed.",
+        "body": "Test",
         "updateAuthor": {
-            "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=peter.hannon",
-            "name": "peter.hannon",
-            "key": "peter.hannon",
-            "accountId": "5a4d07b7f0c8ef2ca832b9d5",
+            "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=nathan.daly",
+            "name": "nathan.daly",
+            "key": "nathan.daly",
+            "accountId": "5a2460a0c51854164d65b37a",
             "avatarUrls": {
-                "48x48": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
-                "24x24": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
-                "16x16": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
-                "32x32": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
+                "48x48": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
+                "24x24": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
+                "16x16": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
+                "32x32": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
             },
-            "displayName": "Pete Hannon",
+            "displayName": "Nathan Daly",
             "active": true,
             "timeZone": "Europe\/London"
         },
-        "created": "2018-01-19T13:35:29.672+0000",
-        "updated": "2018-01-19T13:35:29.672+0000"
+        "created": "2018-01-21T09:42:19.796+0000",
+        "updated": "2018-01-21T09:42:19.796+0000"
     },
     "issue": {
-        "id": "10261",
-        "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/issue\/10261",
-        "key": "INS-57",
+        "id": "10226",
+        "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/issue\/10226",
+        "key": "INS-22",
         "fields": {
-            "summary": "CRUD claim loss type specific questions",
+            "summary": "Update the current broker facing quotes change log to include other events in the quote journey.",
             "issuetype": {
                 "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/issuetype\/10009",
                 "id": "10009",
@@ -67,18 +67,18 @@
                 }
             },
             "assignee": {
-                "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=peter.hannon",
-                "name": "peter.hannon",
-                "key": "peter.hannon",
-                "accountId": "5a4d07b7f0c8ef2ca832b9d5",
-                "emailAddress": "peter.hannon@instanda.com",
+                "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/user?username=nathan.daly",
+                "name": "nathan.daly",
+                "key": "nathan.daly",
+                "accountId": "5a2460a0c51854164d65b37a",
+                "emailAddress": "nathan.daly@instanda.com",
                 "avatarUrls": {
-                    "48x48": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
-                    "24x24": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
-                    "16x16": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
-                    "32x32": "https:\/\/avatar-cdn.atlassian.com\/161b6a1900edbae71ff9e0694af61dc3?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F161b6a1900edbae71ff9e0694af61dc3%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
+                    "48x48": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue",
+                    "24x24": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=24&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D24%26noRedirect%3Dtrue",
+                    "16x16": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=16&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D16%26noRedirect%3Dtrue",
+                    "32x32": "https:\/\/avatar-cdn.atlassian.com\/4255c985c3dbea6fc98e7b8057a4ec09?s=32&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F4255c985c3dbea6fc98e7b8057a4ec09%3Fd%3Dmm%26s%3D32%26noRedirect%3Dtrue"
                 },
-                "displayName": "Pete Hannon",
+                "displayName": "Nathan Daly",
                 "active": true,
                 "timeZone": "Europe\/London"
             },
@@ -89,11 +89,11 @@
                 "id": "3"
             },
             "status": {
-                "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/status\/10021",
-                "description": "",
-                "iconUrl": "https:\/\/instanda.atlassian.net\/images\/icons\/statuses\/generic.png",
-                "name": "Ready for Review",
-                "id": "10021",
+                "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/status\/3",
+                "description": "This issue is being actively worked on at the moment by the assignee.",
+                "iconUrl": "https:\/\/instanda.atlassian.net\/images\/icons\/statuses\/inprogress.png",
+                "name": "In Progress",
+                "id": "3",
                 "statusCategory": {
                     "self": "https:\/\/instanda.atlassian.net\/rest\/api\/2\/statuscategory\/4",
                     "id": 4,

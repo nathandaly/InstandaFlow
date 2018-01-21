@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface JiraUser
+interface JiraUserInterface
 {
     /**
      * @param $username
