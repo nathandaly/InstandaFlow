@@ -47,7 +47,6 @@ class CommentController extends Controller
     {
         try {
             $commentAuthorName = $request->input('comment.author.displayName');
-            $commentBody = $request->input('comment.body');
             $issueKey = $request->input('issue.key');
             $issueSummary = $request->input('issue.fields.summary');
             $issueType = $request->input('issue.fields.issuetype.name');
