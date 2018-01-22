@@ -19,7 +19,7 @@ class SlackService
     /**
      * @var string
      */
-    protected $apiUrl = 'https://slack.com/api/';
+    protected $apiUrl;
 
     /**
      * SlackService constructor.
@@ -27,6 +27,7 @@ class SlackService
     public function __construct()
     {
         $this->httpClient = new HttpClient();
-        $this->apiToken = 'xoxp-226446550871-270565397616-302605483975-db34d3e22ff49c16f381df602e978204';
+        $this->apiUrl = env('SLACK_API_URL');
+        $this->apiToken = env('SLACK_API_TOKEN');
     }
 }

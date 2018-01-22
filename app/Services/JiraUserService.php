@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Authorization;
 use App\Contracts\JiraUserInterface;
+use App\JiraAuthorization;
+use Illuminate\Http\Request;
 
 /**
  * Class JiraUserService
@@ -13,22 +14,19 @@ class JiraUserService extends JiraService implements JiraUserInterface
 {
     /**
      * @param $username
-     * @return array
+     * @return string
      */
-    public function getAuthorEmailFromUsername($username): array
+    public function getAuthorEmailFromUsername($username): string
     {
         $response = $this->httpClient->request('GET', $this->apiUrl . 'user', [
-            'auth' => (new Authorization(HTTP_AUTH_BASIC))->header([
-                'username' => env('JIRA_USERNAME'),
-                'password' => env('JIRA_PASSWORD')
-            ]),
+            'auth' => (new JiraAuthorization())->header(),
             'query' => [
                 'username' => $username
             ]
         ]);
 
         if ($response->getStatusCode() == 200) {
-            $authorDetails = json_decode($response->getBody());
+            $authorDetails = json_decode($response->getBody(), true);
             if (isset($authorDetails['emailAddress'])) {
                 return  $authorDetails['emailAddress'];
             }

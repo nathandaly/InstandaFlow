@@ -6,7 +6,7 @@ interface JiraUserInterface
 {
     /**
      * @param $username
-     * @return array
+     * @return string
      */
-    public function getAuthorEmailFromUsername($username) : array;
+    public function getAuthorEmailFromUsername($username) : string;
 }

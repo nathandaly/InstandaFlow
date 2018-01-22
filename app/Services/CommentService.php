@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Services\Contracts\CommentInterface;
+use App\Contracts\CommentInterface;
 
 class CommentService implements CommentInterface
 {

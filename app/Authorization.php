@@ -15,9 +15,9 @@ class Authorization
 
     /**
      * Authorization constructor.
-     * @param int $authType
+     * @param string $authType
      */
-    public function __construct(int $authType = HTTP_AUTH_BASIC)
+    public function __construct(string $authType = 'basic')
     {
         $this->authType = $authType;
     }
@@ -31,10 +31,10 @@ class Authorization
         $header = [];
 
         switch ($this->authType) {
-            case HTTP_AUTH_BASIC:
+            case 'basic':
                 $header = [
-                    'username' => $credentials['username'],
-                    'password' => $credentials['password']
+                    $credentials['username'],
+                    $credentials['password']
                 ];
         }
 

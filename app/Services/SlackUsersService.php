@@ -2,17 +2,20 @@
 
 namespace App\Services;
 
-use App\Contracts\SlackUsers;
+use App\Contracts\SlackUsersInterface;
+use App\Exceptions\SlackRequestException;
 
 /**
  * Class SlackUsersService
  * @package App\Services
  */
-class SlackUsersService extends SlackService implements SlackUsers
+class SlackUsersService extends SlackService implements SlackUsersInterface
 {
     /**
      * @param string $email
      * @return string
+     * @throws SlackRequestException
+     * @throws \Exception
      */
     public function lookupUserByEmail(string $email) : string
     {
@@ -24,12 +27,14 @@ class SlackUsersService extends SlackService implements SlackUsers
         ]);
 
         if ($response->getStatusCode() == 200) {
-            $userDetails = json_decode($response->getBody());
+            $userDetails = json_decode($response->getBody(), true);
             if (isset($userDetails['user']['id'])) {
                return  $userDetails['user']['id'];
             }
+
+            throw new SlackRequestException(json_encode($userDetails));
         }
 
-        return null;
+        throw new \Exception('Unable to request user details.');
     }
 }

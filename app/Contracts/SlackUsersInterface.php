@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface SlackUsers
+interface SlackUsersInterface
 {
     /**
      * @param string $email

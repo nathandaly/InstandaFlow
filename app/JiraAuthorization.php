@@ -11,11 +11,15 @@ use App\Contracts\AuthorizationInterface;
 class JiraAuthorization extends Authorization implements AuthorizationInterface
 {
     /**
-     * @param array $credentials
      * @return array
      */
-    public function header(array $credentials): array
+    public function header(): array
     {
+        $credentials = [
+            'username' => env('JIRA_USERNAME'),
+            'password' => env('JIRA_PASSWORD')
+        ];
+
         return $this->buildHeader($credentials);
     }
 }

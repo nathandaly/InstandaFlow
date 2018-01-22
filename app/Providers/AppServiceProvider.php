@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Contracts\JiraUser;
 use App\Services\JiraUserService;
+use App\Services\SlackMessageService;
+use App\Services\SlackUsersService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,8 +18,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // Jira services
-        $this->app->singleton(JiraUser::class, function() {
+        $this->app->singleton(JiraUserService::class, function() {
             return new JiraUserService();
+        });
+
+        $this->app->singleton(SlackUsersService::class, function () {
+           return new SlackUsersService();
+        });
+
+        $this->app->singleton(SlackMessageService::class, function () {
+            return new SlackMessageService();
         });
 
         // Slack services

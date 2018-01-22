@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
-use App\Contracts\SlackMessage;
+use App\Contracts\SlackMessageInterface;
+use App\Exceptions\SlackRequestException;
 
 /**
  * Class SlackMessageService
  * @package App\Services
  */
-class SlackMessageService implements SlackMessage
+class SlackMessageService extends SlackService implements SlackMessageInterface
 {
     /**
      * @param string $userId
@@ -17,19 +18,14 @@ class SlackMessageService implements SlackMessage
      */
     public function postMessageToUser(string $userId, string $text) : array
     {
-        $response = $this->postMessage($userId, $text);
-
-        if ($response->getStatusCode() == 200) {
-            return json_decode($response->getBody());
-        }
-
-        return null;
+        return $this->postMessage($userId, $text);
     }
 
     /**
      * @param string $channel
      * @param string $text
      * @return array
+     * @throws SlackRequestException
      */
     public function postMessageToChannel(string $channel, string $text) : array
     {
@@ -39,7 +35,7 @@ class SlackMessageService implements SlackMessage
             return json_decode($response->getBody());
         }
 
-        return null;
+        throw new SlackRequestException(json_encode($response->getBody()));
     }
 
     /**
@@ -50,23 +46,25 @@ class SlackMessageService implements SlackMessage
      */
     private function postMessage(string $subject, $text, array $options = []) : array
     {
-        $query = [
+        $params = [
             'token' => $this->apiToken,
             'channel' => $subject,
             'text' => $text,
             'username' => 'InstandaFlow'
         ];
 
-        array_merge($query, $options);
+        array_merge($params, $options);
 
         $response = $this->httpClient->request(
-            'GET',
+            'POST',
             $this->apiUrl . 'chat.postMessage',
-            $query
+            [
+                'form_params' => $params
+            ]
         );
 
         if ($response->getStatusCode() == 200) {
-            return json_decode($response->getBody());
+            return json_decode($response->getBody(), true);
         }
 
         return null;

@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface SlackMessage
+interface SlackMessageInterface
 {
     /**
      * @param string $userId
