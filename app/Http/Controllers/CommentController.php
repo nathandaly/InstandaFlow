@@ -46,13 +46,18 @@ class CommentController extends Controller
     public function created(Request $request)
     {
         try {
-            echo 'Comment::Created';
-            $commentAuthorName = $request->input('comment.author.name');
-            $commentAuthorEmail = $this->jiraUserService->getAuthorEmailFromUsername($commentAuthorName);
-            $slackUserId = $this->slackUserService->lookupUserByEmail($commentAuthorEmail);
+            $commentAuthorName = $request->input('comment.author.displayName');
+            $commentBody = $request->input('comment.body');
+            $issueKey = $request->input('issue.key');
+            $issueSummary = $request->input('issue.fields.summary');
+            $issueType = $request->input('issue.fields.issuetype.name');
+
+            $assigneeDisplayName = $request->input('issue.fields.assignee.key');
+            $assigneeAuthorEmail = $this->jiraUserService->getAuthorEmailFromUsername($assigneeDisplayName);
+            $slackUserId = $this->slackUserService->lookupUserByEmail($assigneeAuthorEmail);
             $this->slackMessageService->postMessageToUser(
                 $slackUserId,
-                'Someone posted a commend on Jira dawg...'
+                '`' . $commentAuthorName  . ' just commented on ' . $issueType . ' `' . $issueKey . ' - ' . $issueSummary . '`. Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
             );
             exit;
         } catch (SlackRequestException $e) {
