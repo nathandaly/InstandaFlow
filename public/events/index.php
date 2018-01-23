@@ -1,1 +1,11 @@
-<a href="./jira:issue">jira:issue</a><br /><a href="./comment">comment</a><br />
+<?php
+
+if ($handle = opendir('.')) {
+    while (false !== ($entry = readdir($handle))) {
+        if ($entry != '.' && $entry != '..' && $entry != 'index.php') {
+            echo '<a href="./' . $entry . '">' . $entry . '</a><br />';
+        }
+    }
+
+    closedir($handle);
+}

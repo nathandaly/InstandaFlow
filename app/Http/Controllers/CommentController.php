@@ -46,19 +46,19 @@ class CommentController extends Controller
     public function created(Request $request)
     {
         try {
-            $commentAuthorName = $request->input('comment.author.displayName');
             $issueKey = $request->input('issue.key');
             $issueSummary = $request->input('issue.fields.summary');
             $issueType = $request->input('issue.fields.issuetype.name');
+            $commentBody = $request->input('comment.body');
 
-            $assigneeDisplayName = $request->input('issue.fields.assignee.key');
-            $assigneeAuthorEmail = $this->jiraUserService->getAuthorEmailFromUsername($assigneeDisplayName);
-            $slackUserId = $this->slackUserService->lookupUserByEmail($assigneeAuthorEmail);
-            $this->slackMessageService->postMessageToUser(
-                $slackUserId,
-                '`' . $commentAuthorName  . ' just commented on ' . $issueType . ' `' . $issueKey . ' - ' . $issueSummary . '`. Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
-            );
-            exit;
+            if ($this->containsMention($commentBody) && ($mentionedUserKey = $this->extractUserKey($commentBody))) {
+                $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey);
+                $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
+                $this->slackMessageService->postMessageToUser(
+                    $slackUserId,
+                    'You have been mentioned on `' . $issueType . '` `' . $issueKey . ' - ' . $issueSummary . '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
+                );
+            }
         } catch (SlackRequestException $e) {
             // Email/ELK logging?
         } catch (\Exception $e) {
@@ -79,5 +79,35 @@ class CommentController extends Controller
     public function worklogChanged()
     {
 
+    }
+
+    /**
+     * @param $bodyText
+     * @return bool
+     */
+    private function containsMention($bodyText)
+    {
+        if (strpos($bodyText, '[~') !== false) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $bodyText
+     * @return null
+     */
+    private function extractUserKey($bodyText)
+    {
+        if (preg_match_all(
+            '/\[~(.*?)\]/',
+            $bodyText, $matches,
+            PREG_SET_ORDER,
+            0)) {
+            return $matches[0][1];
+        }
+
+        return null;
     }
 }
