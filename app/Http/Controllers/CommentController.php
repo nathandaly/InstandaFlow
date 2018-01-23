@@ -49,6 +49,7 @@ class CommentController extends Controller
             $issueKey = $request->input('issue.key');
             $issueSummary = $request->input('issue.fields.summary');
             $issueType = $request->input('issue.fields.issuetype.name');
+            $commentId = $request->input('comment.id');
             $commentBody = $request->input('comment.body');
 
             if ($this->containsMention($commentBody) && ($mentionedUserKeys = $this->extractUserKey($commentBody))) {
@@ -63,7 +64,9 @@ class CommentController extends Controller
                     $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
                     $this->slackMessageService->postMessageToUser(
                         $slackUserId,
-                        'You have been mentioned on `' . $issueType . '` `' . $issueKey . ' - ' . $issueSummary . '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
+                        'You have been mentioned on `' . $issueType .
+                        '` `' . $issueKey . ' - ' . $issueSummary .
+                        '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId
                     );
                     $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
                 }
