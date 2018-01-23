@@ -51,13 +51,22 @@ class CommentController extends Controller
             $issueType = $request->input('issue.fields.issuetype.name');
             $commentBody = $request->input('comment.body');
 
-            if ($this->containsMention($commentBody) && ($mentionedUserKey = $this->extractUserKey($commentBody))) {
-                $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey);
-                $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
-                $this->slackMessageService->postMessageToUser(
-                    $slackUserId,
-                    'You have been mentioned on `' . $issueType . '` `' . $issueKey . ' - ' . $issueSummary . '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
-                );
+            if ($this->containsMention($commentBody) && ($mentionedUserKeys = $this->extractUserKey($commentBody))) {
+                $mentions = [];
+
+                foreach ($mentionedUserKeys as $mentionedUserKey) {
+                    if (isset($mentions[$mentionedUserKey[0]])) {
+                        continue;
+                    }
+
+                    $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey[1]);
+                    $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
+                    $this->slackMessageService->postMessageToUser(
+                        $slackUserId,
+                        'You have been mentioned on `' . $issueType . '` `' . $issueKey . ' - ' . $issueSummary . '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey
+                    );
+                    $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
+                }
             }
         } catch (SlackRequestException $e) {
             // Email/ELK logging?
@@ -105,7 +114,7 @@ class CommentController extends Controller
             $bodyText, $matches,
             PREG_SET_ORDER,
             0)) {
-            return $matches[0][1];
+            return $matches;
         }
 
         return null;
