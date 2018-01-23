@@ -28,7 +28,7 @@ $router->post('/', function () use ($router) {
     }
 
     file_put_contents(
-        $dir . '/' . $hookSubject . '/' . $json['webhookEvent'] . '.json',
+        $dir . '/' . $hookSubject . '/' . $json['webhookEvent'] . (new DateTime())->format('Y-m-d_H:i:s') . '.json',
         json_encode($json, JSON_PRETTY_PRINT)
     );
 
