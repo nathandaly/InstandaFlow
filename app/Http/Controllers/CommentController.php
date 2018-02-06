@@ -64,9 +64,10 @@ class CommentController extends Controller
                     $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
                     $this->slackMessageService->postMessageToUser(
                         $slackUserId,
-                        'You have been mentioned on `' . $issueType .
-                        '` `' . $issueKey . ' - ' . $issueSummary .
-                        '` Click the link to view. https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId
+                        "You have been mentioned on `" . $issueType .
+                        "` `" . $issueKey . " - " . $issueSummary . "`" .
+                        "\r```" . $commentBody . "```" .
+                        "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId
                     );
                     $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
                 }
