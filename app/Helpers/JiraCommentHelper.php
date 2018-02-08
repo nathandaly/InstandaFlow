@@ -9,10 +9,10 @@ namespace App\Helpers;
 class JiraCommentHelper
 {
     /**
-     * @param $bodyText
+     * @param string $bodyText
      * @return bool
      */
-    public static function containsMention($bodyText)
+    public static function containsMention(string $bodyText)
     {
         if (strpos($bodyText, '[~') !== false) {
             return true;
@@ -22,10 +22,10 @@ class JiraCommentHelper
     }
 
     /**
-     * @param $bodyText
+     * @param string $bodyText
      * @return null
      */
-    public static function extractUserKey($bodyText)
+    public static function extractUserKey(string $bodyText)
     {
         if (preg_match_all(
             '/\[~(.*?)\]/',

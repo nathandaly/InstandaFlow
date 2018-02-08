@@ -18,15 +18,18 @@ class CommentController extends Controller
      */
     private $commentService;
 
-    public function __construct()
+    /**
+     * CommentController constructor.
+     * @param CommentInterface $comment
+     */
+    public function __construct(CommentInterface $comment)
     {
-        $container = Container::getInstance();
-        $this->commentService = $container->make(CommentInterface::class);
+        $this->commentService = $comment;
     }
 
     /**
      * @param Request $request
-     * @throws \Exception
+     * @return \Illuminate\Http\JsonResponse
      */
     public function created(Request $request)
     {
@@ -39,6 +42,7 @@ class CommentController extends Controller
                 $request->input('comment.body')
             );
         } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
             // Email/ELK logging?
         }
     }

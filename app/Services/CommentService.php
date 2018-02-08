@@ -6,6 +6,7 @@ use App\Contracts\CommentInterface;
 use App\Contracts\JiraUserInterface;
 use App\Contracts\SlackMessageInterface;
 use App\Contracts\SlackUsersInterface;
+use App\Helpers\JiraCommentHelper;
 use App\Services\Jira\JiraUserService;
 use App\Services\Slack\SlackMessageService;
 
@@ -26,29 +27,31 @@ class CommentService implements CommentInterface
      */
     private $slackMessageService;
 
-    public function __construct()
-    {
-        $container = Container::getInstance();
-        $this->jiraUserService = $container->make(JiraUserInterface::class);
-        $this->slackUserService = $container->make(SlackUsersInterface::class);
-        $this->slackMessageService = $container->make(SlackMessageInterface::class);
+    public function __construct(
+        JiraUserInterface $jiraUser,
+        SlackUsersInterface $slackUser,
+        SlackMessageInterface $slackMessage
+    ) {
+        $this->jiraUserService = $jiraUser;
+        $this->slackUserService = $slackUser;
+        $this->slackMessageService = $slackMessage;
     }
 
-    /**#
-     * @param $issueKey
-     * @param $issueType
-     * @param $issueSummary
-     * @param $commentId
-     * @param $commentBody
+    /**
+     * @param string $issueKey
+     * @param string $issueType
+     * @param string $issueSummary
+     * @param string $commentId
+     * @param string $commentBody
+     * @return void
      */
     public function procesJiraCommentAndSendSlackMessage(
-        $issueKey,
-        $issueType,
-        $issueSummary,
-        $commentId,
-        $commentBody
-    ): void
-    {
+        string $issueKey,
+        string $issueType,
+        string $issueSummary,
+        string $commentId,
+        string $commentBody
+    ) {
         if (!isset(
             $issueKey,
             $issueType,

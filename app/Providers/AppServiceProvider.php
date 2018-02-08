@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
+    /**\e
      * Register any application services.
      *
      * @return void
@@ -20,24 +20,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // Jira services
-        $this->app->singleton(JiraUserService::class, function() {
-            return new JiraUserService();
-        });
-
-        $this->app->singleton(SlackUsersService::class, function () {
-           return new SlackUsersService();
-        });
-
-        $this->app->singleton(SlackMessageService::class, function () {
-            return new SlackMessageService();
-        });
-
-        $this->app->singleton(CommentInterface::class, function () {
-            return new CommentService();
-        });
-
-        // Slack services
-        //$this->app->bind('App\Contracts\SlackUsers', 'App\Services\SlackUsersService');
-        //$this->app->bind('App\Contracts\SlackMessage', 'App\Services\SlackMessageService');
+        $this->app->bind(CommentInterface::class, CommentService::class);
     }
 }

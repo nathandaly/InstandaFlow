@@ -16,7 +16,7 @@ class JiraUserService extends JiraService implements JiraUserInterface
      * @param $username
      * @return string
      */
-    public function getAuthorEmailFromUsername($username): string
+    public function getAuthorEmailFromUsername(string $username): string
     {
         $response = $this->httpClient->request('GET', $this->apiUrl . 'user', [
             'auth' => (new JiraAuthorization())->header(),
