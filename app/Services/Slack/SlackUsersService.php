@@ -17,7 +17,7 @@ class SlackUsersService extends SlackService implements SlackUsersInterface
      * @throws SlackRequestException
      * @throws \Exception
      */
-    public function lookupUserByEmail(string $email) : string
+    public function lookupUserByEmail(string $email): string
     {
         $response = $this->httpClient->request('GET', $this->apiUrl . 'users.lookupByEmail', [
             'query' => [

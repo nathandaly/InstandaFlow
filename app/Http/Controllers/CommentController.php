@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\CommentInterface;
 use App\Services\CommentService;
-use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 
 /**
@@ -42,7 +41,7 @@ class CommentController extends Controller
                 $request->input('comment.body')
             );
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json(['ok' => false, 'error' => $e->getMessage()]);
             // Email/ELK logging?
         }
     }

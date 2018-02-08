@@ -26,7 +26,7 @@ class Authorization
      * @param array $credentials
      * @return array
      */
-    protected function buildHeader(array $credentials) : array
+    protected function buildHeader(array $credentials): array
     {
         $header = [];
 
