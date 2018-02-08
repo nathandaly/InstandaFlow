@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\CommentInterface;
 use App\Contracts\JiraUser;
+use App\Services\CommentService;
 use App\Services\JiraUserService;
 use App\Services\SlackMessageService;
 use App\Services\SlackUsersService;
@@ -28,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(SlackMessageService::class, function () {
             return new SlackMessageService();
+        });
+
+        $this->app->singleton(CommentInterface::class, function () {
+            return new CommentService();
         });
 
         // Slack services

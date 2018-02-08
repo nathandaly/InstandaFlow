@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Slack;
 
 use App\Contracts\SlackUsersInterface;
 use App\Exceptions\SlackRequestException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jira;
 
 use GuzzleHttp\Client as HttpClient;
 
@@ -14,10 +14,11 @@ class JiraService
     /**
      * @var string
      */
-    protected $apiUrl = 'https://instanda.atlassian.net/rest/api/2/';
+    protected $apiUrl;
 
     public function __construct()
     {
+        $this->apiUrl = getenv('JIRA_API_URL');
         $this->httpClient = new HttpClient();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jira;
 
 use App\Contracts\JiraUserInterface;
 use App\JiraAuthorization;
@@ -28,7 +28,7 @@ class JiraUserService extends JiraService implements JiraUserInterface
         if ($response->getStatusCode() == 200) {
             $authorDetails = json_decode($response->getBody(), true);
             if (isset($authorDetails['emailAddress'])) {
-                return  $authorDetails['emailAddress'];
+                return $authorDetails['emailAddress'];
             }
         }
 

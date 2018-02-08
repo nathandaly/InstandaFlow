@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\JiraUser;
-use App\Exceptions\SlackRequestException;
-use App\Services\JiraUserService;
-use App\Services\SlackMessageService;
-use App\Services\SlackUsersService;
+use App\Contracts\CommentInterface;
+use App\Services\CommentService;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 
@@ -17,26 +14,14 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     /**
-     * @var JiraUserService
+     * @var CommentService
      */
-    private $jiraUserService;
-
-    /**
-     * @var SlackUsersService
-     */
-    private $slackUserService;
-
-    /**
-     * @var SlackMessageService
-     */
-    private $slackMessageService;
+    private $commentService;
 
     public function __construct()
     {
         $container = Container::getInstance();
-        $this->jiraUserService = $container->make(JiraUserService::class);
-        $this->slackUserService = $container->make(SlackUsersService::class);
-        $this->slackMessageService = $container->make(SlackMessageService::class);
+        $this->commentService = $container->make(CommentInterface::class);
     }
 
     /**
@@ -46,34 +31,13 @@ class CommentController extends Controller
     public function created(Request $request)
     {
         try {
-            $issueKey = $request->input('issue.key');
-            $issueSummary = $request->input('issue.fields.summary');
-            $issueType = $request->input('issue.fields.issuetype.name');
-            $commentId = $request->input('comment.id');
-            $commentBody = $request->input('comment.body');
-
-            if ($this->containsMention($commentBody) && ($mentionedUserKeys = $this->extractUserKey($commentBody))) {
-                $mentions = [];
-
-                foreach ($mentionedUserKeys as $mentionedUserKey) {
-                    if (isset($mentions[$mentionedUserKey[0]])) {
-                        continue;
-                    }
-
-                    $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey[1]);
-                    $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
-                    $this->slackMessageService->postMessageToUser(
-                        $slackUserId,
-                        "You have been mentioned on `" . $issueType .
-                        "` `" . $issueKey . " - " . $issueSummary . "`" .
-                        "\r```" . $commentBody . "```" .
-                        "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId
-                    );
-                    $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
-                }
-            }
-        } catch (SlackRequestException $e) {
-            // Email/ELK logging?
+            $this->commentService->procesJiraCommentAndSendSlackMessage(
+                $request->input('issue.key'),
+                $request->input('issue.fields.issuetype.name'),
+                $request->input('issue.fields.summary'),
+                $request->input('comment.id'),
+                $request->input('comment.body')
+            );
         } catch (\Exception $e) {
             // Email/ELK logging?
         }
@@ -92,35 +56,5 @@ class CommentController extends Controller
     public function worklogChanged()
     {
 
-    }
-
-    /**
-     * @param $bodyText
-     * @return bool
-     */
-    private function containsMention($bodyText)
-    {
-        if (strpos($bodyText, '[~') !== false) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $bodyText
-     * @return null
-     */
-    private function extractUserKey($bodyText)
-    {
-        if (preg_match_all(
-            '/\[~(.*?)\]/',
-            $bodyText, $matches,
-            PREG_SET_ORDER,
-            0)) {
-            return $matches;
-        }
-
-        return null;
     }
 }
