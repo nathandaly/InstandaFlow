@@ -32,6 +32,16 @@ $router->post('/', function () use ($router) {
         json_encode($json, JSON_PRETTY_PRINT)
     );
 
+    // Remove "jira:" from the event hook name.
+    $hookSubject = str_replace('jira:', '', $hookSubject);
+
+    if (!class_exists('App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller')) {
+        return Response(
+            json_encode(['ok' => false, 'message' => ucfirst($hookSubject) . 'Controller not found.']),
+            404
+        );
+    }
+
     // i.e. CommentController@create
     return $router->app->call(
         'App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller@' . $hookAction,
