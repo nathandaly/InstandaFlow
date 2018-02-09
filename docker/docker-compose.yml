@@ -23,7 +23,7 @@ services:
      - ./logs/php-fpm:/var/log/php-fpm
      - ..:/var/www/html
     environment:
-      XDEBUG_HOST: 192.168.56.1 #${XDEBUG_HOST}
+      XDEBUG_HOST: 192.168.1.126 #${XDEBUG_HOST}
     links:
      - db
   web:

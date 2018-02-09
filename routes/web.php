@@ -15,6 +15,18 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('{hash}/unsubscribe', [
+    'as' => 'unsubscribe',
+    'uses' => 'SubscriberController@unsubscribe'
+]);
+
+$router->get('/key', function() {
+    return str_random(32);
+});
+
+/**
+ * Jira Webhooks
+ */
 $router->post('/', function () use ($router) {
     $dir = base_path() . '/public/events';
     $json = json_decode(file_get_contents('php://input'), true);
@@ -45,6 +57,8 @@ $router->post('/', function () use ($router) {
     // i.e. CommentController@create
     return $router->app->call(
         'App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller@' . $hookAction,
-        explode('/', '')
+        [
+            'hook' => 'JIRA::' . $json['webhookEvent']
+        ]
     );
 });

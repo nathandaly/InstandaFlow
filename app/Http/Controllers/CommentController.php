@@ -30,7 +30,7 @@ class CommentController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function created(Request $request)
+    public function created(Request $request, $hook)
     {
         try {
             $this->commentService->procesJiraCommentAndSendSlackMessage(
@@ -38,7 +38,8 @@ class CommentController extends Controller
                 $request->input('issue.fields.issuetype.name'),
                 $request->input('issue.fields.summary'),
                 $request->input('comment.id'),
-                $request->input('comment.body')
+                $request->input('comment.body'),
+                $hook
             );
         } catch (\Exception $e) {
             return response()->json(['ok' => false, 'error' => $e->getMessage()]);

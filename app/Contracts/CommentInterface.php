@@ -14,12 +14,15 @@ interface CommentInterface
      * @param string $issueSummary
      * @param string $commentId
      * @param string $commentBody
+     * @param string $hook
+     * @return mixed
      */
     public function procesJiraCommentAndSendSlackMessage(
         string $issueKey,
         string $issueType,
         string $issueSummary,
         string $commentId,
-        string $commentBody
+        string $commentBody,
+        string $hook = null
     );
 }

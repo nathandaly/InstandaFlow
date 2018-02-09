@@ -6,6 +6,7 @@ use App\Contracts\CommentInterface;
 use App\Contracts\JiraUserInterface;
 use App\Contracts\SlackMessageInterface;
 use App\Contracts\SlackUsersInterface;
+use App\Contracts\SubscriberInterface;
 use App\Helpers\JiraCommentHelper;
 use App\Services\Jira\JiraUserService;
 use App\Services\Slack\SlackMessageService;
@@ -16,6 +17,8 @@ class CommentService implements CommentInterface
      * @var JiraUserService
      */
     private $jiraUserService;
+
+    private $subscriber;
 
     /**
      * @var SlackUsersInterface
@@ -30,11 +33,13 @@ class CommentService implements CommentInterface
     public function __construct(
         JiraUserInterface $jiraUser,
         SlackUsersInterface $slackUser,
-        SlackMessageInterface $slackMessage
+        SlackMessageInterface $slackMessage,
+        SubscriberInterface $subscriber
     ) {
         $this->jiraUserService = $jiraUser;
         $this->slackUserService = $slackUser;
         $this->slackMessageService = $slackMessage;
+        $this->subscriber = $subscriber;
     }
 
     /**
@@ -43,6 +48,7 @@ class CommentService implements CommentInterface
      * @param string $issueSummary
      * @param string $commentId
      * @param string $commentBody
+     * @param string|null $hook
      * @return void
      */
     public function procesJiraCommentAndSendSlackMessage(
@@ -50,7 +56,8 @@ class CommentService implements CommentInterface
         string $issueType,
         string $issueSummary,
         string $commentId,
-        string $commentBody
+        string $commentBody,
+        string $hook = null
     ) {
         if (!isset(
             $issueKey,
@@ -74,16 +81,30 @@ class CommentService implements CommentInterface
                 }
 
                 $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey[1]);
+                $appSubsriberKeys = explode('::', $hook, 2);
+
+                if (!$this->userAllowsNotifications($mentionedUserEmail, $appSubsriberKeys[0], $appSubsriberKeys[1])) {
+                    continue;
+                }
+
                 $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
+                $unsubscribeHash = base64_encode('{email: ' . $mentionedUserEmail . ', integration: ' . $appSubsriberKeys[0] . ', hook: ' . $appSubsriberKeys[0] . '}');
+
                 $this->slackMessageService->postMessageToUser(
                     $slackUserId,
                     "You have been mentioned on `" . $issueType .
                     "` `" . $issueKey . " - " . $issueSummary . "`" .
                     "\r```" . $commentBody . "```" .
-                    "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId
+                    "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId,
+                    $unsubscribeHash
                 );
                 $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
             }
         }
+    }
+
+    private function userAllowsNotifications(string $email, string $integration, string $hook): bool
+    {
+        return !$this->subscriber->hasUnsubscribed($email, $integration, $hook);
     }
 }

@@ -9,7 +9,7 @@ interface SlackMessageInterface
      * @param string $text
      * @return array
      */
-    public function postMessageToUser(string $userId, string $text): array;
+    public function postMessageToUser(string $userId, string $text, string $unsubscribeToken, array $options = []): array;
 
     /**
      * @param string $channel
