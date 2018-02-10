@@ -52,19 +52,6 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
             'token' => $this->apiToken,
             'channel' => $subject,
             'text' => $text,
-            'attachments' => [
-                [
-                    'fallback' => 'Click here to unsubscribe http://165.227.230.69/' . $unsubscribeToken . '/unsubscribe',
-                    'actions' => [
-                        [
-                            'type' => 'button',
-                            'text' => 'Unsubscribe',
-                            'style' => 'danger',
-                            'url' => 'http://165.227.230.69/' . $unsubscribeToken . '/unsubscribe'
-                        ]
-                    ]
-                ]
-            ],
             'username' => 'InstandaFlow'
         ];
 

@@ -94,9 +94,33 @@ class CommentService implements CommentInterface
                     $slackUserId,
                     "You have been mentioned on `" . $issueType .
                     "` `" . $issueKey . " - " . $issueSummary . "`" .
-                    "\r```" . $commentBody . "```" .
-                    "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId,
-                    $unsubscribeHash
+                    "\r```" . $commentBody . "```",
+                    $unsubscribeHash,
+                    [
+                        'attachments' => [
+                            [
+                                'fallback' => 'Click here to unsubscribe ' . getenv('APP_URL') . '/' . $unsubscribeToken . '/unsubscribe',
+                                'actions' => [
+                                    [
+                                        'type' => 'button',
+                                        'text' => 'View',
+                                        'style' => 'default',
+                                        'url' => 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId
+                                    ]
+                                ]
+                            ],[
+                                'fallback' => 'Click here to unsubscribe  ' . getenv('APP_URL') . '/' . $unsubscribeToken . '/unsubscribe',
+                                'actions' => [
+                                    [
+                                        'type' => 'button',
+                                        'text' => 'Unsubscribe',
+                                        'style' => 'danger',
+                                        'url' => getenv('APP_URL') . '' . $unsubscribeToken . '/unsubscribe'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
                 );
                 $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
             }
