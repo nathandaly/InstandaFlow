@@ -11,6 +11,10 @@ use App\Helpers\JiraCommentHelper;
 use App\Services\Jira\JiraUserService;
 use App\Services\Slack\SlackMessageService;
 
+/**
+ * Class CommentService
+ * @package App\Services
+ */
 class CommentService implements CommentInterface
 {
     /**
@@ -89,33 +93,30 @@ class CommentService implements CommentInterface
 
                 $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
                 $unsubscribeHash = base64_encode('{email: ' . $mentionedUserEmail . ', integration: ' . $appSubsriberKeys[0] . ', hook: ' . $appSubsriberKeys[0] . '}');
+                $viewMessage = 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId;
 
                 $this->slackMessageService->postMessageToUser(
                     $slackUserId,
                     "You have been mentioned on `" . $issueType .
                     "` `" . $issueKey . " - " . $issueSummary . "`" .
                     "\r```" . $commentBody . "```",
-                    $unsubscribeHash,
                     [
                         'attachments' => [
                             [
-                                'fallback' => 'Click here to unsubscribe ' . getenv('APP_URL') . '/' . $unsubscribeToken . '/unsubscribe',
+                                'fallback' => 'Click here view ' . $viewMessage,
                                 'actions' => [
                                     [
+                                        'name' => 'view-comment',
                                         'type' => 'button',
                                         'text' => 'View',
-                                        'style' => 'default',
-                                        'url' => 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId
-                                    ]
-                                ]
-                            ],[
-                                'fallback' => 'Click here to unsubscribe  ' . getenv('APP_URL') . '/' . $unsubscribeToken . '/unsubscribe',
-                                'actions' => [
-                                    [
+                                        'fallback' => 'Click here view ' . $viewMessage,
+                                        'url' => $viewMessage
+                                    ],[
+                                        'name' => 'unsubscribe',
                                         'type' => 'button',
                                         'text' => 'Unsubscribe',
                                         'style' => 'danger',
-                                        'url' => getenv('APP_URL') . '' . $unsubscribeToken . '/unsubscribe'
+                                        'url' => 'http://localhost:8080/' . $unsubscribeHash . '/unsubscribe'
                                     ]
                                 ]
                             ]

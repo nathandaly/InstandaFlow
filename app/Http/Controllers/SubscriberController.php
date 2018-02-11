@@ -13,10 +13,8 @@ class SubscriberController extends Controller
         return response()->json(['ok' => true, 'message' => 'Successfully subscribed.']);
     }
 
-    public function unsubscribe($hash)
+    public function unsubscribe()
     {
-
-        echo $hash; exit;
         return response()->json(['ok' => true, 'message' => 'Successfully unsubscribed.']);
     }
 }

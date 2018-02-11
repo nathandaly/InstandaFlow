@@ -18,7 +18,7 @@ class JiraService
 
     public function __construct()
     {
-        $this->apiUrl = getenv('JIRA_API_URL');
+        $this->apiUrl = getenv('JIRA_API_URL') . '/rest/api/' . getenv('JIRA_API_VERSION') . '/';
         $this->httpClient = new HttpClient();
     }
 }
