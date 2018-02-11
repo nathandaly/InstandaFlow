@@ -11,11 +11,7 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
-$router->get('{hash}/unsubscribe', [
+$router->get('/{hash}/unsubscribe', [
     'as' => 'unsubscribe',
     'uses' => 'SubscriberController@unsubscribe'
 ]);

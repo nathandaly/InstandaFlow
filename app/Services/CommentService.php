@@ -11,6 +11,10 @@ use App\Helpers\JiraCommentHelper;
 use App\Services\Jira\JiraUserService;
 use App\Services\Slack\SlackMessageService;
 
+/**
+ * Class CommentService
+ * @package App\Services
+ */
 class CommentService implements CommentInterface
 {
     /**
@@ -89,14 +93,35 @@ class CommentService implements CommentInterface
 
                 $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
                 $unsubscribeHash = base64_encode('{email: ' . $mentionedUserEmail . ', integration: ' . $appSubsriberKeys[0] . ', hook: ' . $appSubsriberKeys[0] . '}');
+                $viewMessage = 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId;
 
                 $this->slackMessageService->postMessageToUser(
                     $slackUserId,
                     "You have been mentioned on `" . $issueType .
                     "` `" . $issueKey . " - " . $issueSummary . "`" .
-                    "\r```" . $commentBody . "```" .
-                    "\rClick the link to view. https://instanda.atlassian.net/browse/" . $issueKey . "?focusedCommentId=" . $commentId . "#comment-" . $commentId,
-                    $unsubscribeHash
+                    "\r```" . $commentBody . "```",
+                    [
+                        'attachments' => [
+                            [
+                                'fallback' => 'Click here view ' . $viewMessage,
+                                'actions' => [
+                                    [
+                                        'name' => 'view-comment',
+                                        'type' => 'button',
+                                        'text' => 'View',
+                                        'fallback' => 'Click here view ' . $viewMessage,
+                                        'url' => $viewMessage
+                                    ],[
+                                        'name' => 'unsubscribe',
+                                        'type' => 'button',
+                                        'text' => 'Unsubscribe',
+                                        'style' => 'danger',
+                                        'url' => 'http://localhost:8080/' . $unsubscribeHash . '/unsubscribe'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
                 );
                 $mentions[$mentionedUserKey[0]] = $mentionedUserKey[1];
             }

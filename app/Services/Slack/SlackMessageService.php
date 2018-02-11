@@ -16,11 +16,12 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
     /**
      * @param string $userId
      * @param string $text
+     * @param array $options
      * @return array
      */
-    public function postMessageToUser(string $userId, string $text, string $unsubscribeToken, array $options = []) : array
+    public function postMessageToUser(string $userId, string $text, array $options = []) : array
     {
-        return $this->postMessage($userId, $text, $unsubscribeToken, $options = []);
+        return $this->postMessage($userId, $text, $options);
     }
 
     /**
@@ -46,29 +47,16 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
      * @param array $options
      * @return array
      */
-    private function postMessage(string $subject, string $text, string $unsubscribeToken, array $options = []) : array
+    private function postMessage(string $subject, string $text, array $options = []) : array
     {
         $params = [
             'token' => $this->apiToken,
             'channel' => $subject,
             'text' => $text,
-            'attachments' => [
-                [
-                    'fallback' => 'Click here to unsubscribe http://165.227.230.69/' . $unsubscribeToken . '/unsubscribe',
-                    'actions' => [
-                        [
-                            'type' => 'button',
-                            'text' => 'Unsubscribe',
-                            'style' => 'danger',
-                            'url' => 'http://165.227.230.69/' . $unsubscribeToken . '/unsubscribe'
-                        ]
-                    ]
-                ]
-            ],
             'username' => 'InstandaFlow'
         ];
 
-        array_merge($params, $options);
+        $params = array_merge($params, $options);
 
         $response = $this->httpClient->request(
             'POST',
