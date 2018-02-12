@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\SubscriberInterface;
+use Mockery\Exception;
 
 /**
  * Class SubscriberRepository
@@ -35,6 +36,10 @@ class SubscriberRepository implements SubscriberInterface
      */
     public function unsubscribe(string $email, string $integration, string $hook): bool
     {
+        if ($this->hasUnsubscribed($email, $integration, $hook)) {
+            throw new Exception('This email has already unsubscribed from this hook.');
+        }
+
         $subscriber = new Subscriber();
         $subscriber->email = $email;
         $subscriber->integration = $integration;
