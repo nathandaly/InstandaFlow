@@ -29,9 +29,11 @@ class JiraCommentHelper
     {
         if (preg_match_all(
             '/\[~(.*?)\]/',
-            $bodyText, $matches,
+            $bodyText,
+            $matches,
             PREG_SET_ORDER,
-            0)) {
+            0
+        )) {
             return $matches;
         }
 

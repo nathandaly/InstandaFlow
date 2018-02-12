@@ -16,7 +16,7 @@ $router->get('/{hash}/unsubscribe', [
     'uses' => 'SubscriberController@unsubscribe'
 ]);
 
-$router->get('/key', function() {
+$router->get('/key', function () {
     return str_random(32);
 });
 

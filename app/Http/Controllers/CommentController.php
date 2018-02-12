@@ -49,16 +49,13 @@ class CommentController extends Controller
 
     public function updated()
     {
-
     }
 
     public function deleted()
     {
-
     }
 
     public function worklogChanged()
     {
-
     }
 }

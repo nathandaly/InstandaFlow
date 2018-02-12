@@ -29,7 +29,7 @@ class SlackUsersService extends SlackService implements SlackUsersInterface
         if ($response->getStatusCode() == 200) {
             $userDetails = json_decode($response->getBody(), true);
             if (isset($userDetails['user']['id'])) {
-               return  $userDetails['user']['id'];
+                return  $userDetails['user']['id'];
             }
 
             throw new SlackRequestException(json_encode($userDetails));

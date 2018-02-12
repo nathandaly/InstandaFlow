@@ -73,8 +73,7 @@ class CommentService implements CommentInterface
             throw new \InvalidArgumentException();
         }
 
-        if (
-            JiraCommentHelper::containsMention($commentBody) &&
+        if (JiraCommentHelper::containsMention($commentBody) &&
             ($mentionedUserKeys = JiraCommentHelper::extractUserKey($commentBody))
         ) {
             $mentions = [];
