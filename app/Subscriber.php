@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Unsubscribe
  * @package App
  */
-class Unsubscribe extends Model
+class Subscriber extends Model
 {
     protected $table = 'unsubscribers';
 

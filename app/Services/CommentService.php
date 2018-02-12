@@ -92,7 +92,12 @@ class CommentService implements CommentInterface
                 }
 
                 $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
-                $unsubscribeHash = base64_encode('{email: ' . $mentionedUserEmail . ', integration: ' . $appSubsriberKeys[0] . ', hook: ' . $appSubsriberKeys[0] . '}');
+                $subscriberData = [
+                  'email' => $mentionedUserEmail,
+                  'integration' => $appSubsriberKeys[0],
+                  'hook' => $appSubsriberKeys[1]
+                ];
+                $unsubscribeHash = base64_encode(json_encode($subscriberData));
                 $viewMessage = 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId;
 
                 $this->slackMessageService->postMessageToUser(
@@ -128,6 +133,12 @@ class CommentService implements CommentInterface
         }
     }
 
+    /**
+     * @param string $email
+     * @param string $integration
+     * @param string $hook
+     * @return bool
+     */
     private function userAllowsNotifications(string $email, string $integration, string $hook): bool
     {
         return !$this->subscriber->hasUnsubscribed($email, $integration, $hook);
