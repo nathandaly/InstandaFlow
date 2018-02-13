@@ -42,9 +42,19 @@ class CommentController extends Controller
                 $hook
             );
         } catch (\Exception $e) {
-            return response()->json(['ok' => false, 'error' => $e->getMessage()]);
+            return response()->json(
+                [
+                    'ok' => false,
+                    'error' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ],
+                500
+            );
             // Email/ELK logging?
         }
+
+        return response()->json(['ok' => true], 200);
     }
 
     public function updated()

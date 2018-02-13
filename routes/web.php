@@ -2,59 +2,24 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-$router->get('/{hash}/unsubscribe', [
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/{hash}/unsubscribe', [
     'as' => 'unsubscribe',
     'uses' => 'SubscriberController@unsubscribe'
 ]);
 
-$router->get('/key', function() {
+Route::get('/key', function() {
     return str_random(32);
-});
-
-/**
- * Jira Webhooks
- */
-$router->post('/', function () use ($router) {
-    $dir = base_path() . '/public/events';
-    $json = json_decode(file_get_contents('php://input'), true);
-    $hook = explode('_', $json['webhookEvent'], 2);
-    $hookSubject = $hook[0];
-    $hookAction = $hook[1];
-
-    if (!file_exists($dir . '/' . $hookSubject)) {
-        mkdir($dir . '/' . $hookSubject, 0777);
-        copy($dir . '/index.php', $dir . '/' . $hookSubject . '/index.php');
-    }
-
-    file_put_contents(
-        $dir . '/' . $hookSubject . '/' . $json['webhookEvent'] . '-' . (new DateTime())->format('Y-m-d_H:i:s') . '.json',
-        json_encode($json, JSON_PRETTY_PRINT)
-    );
-
-    // Remove "jira:" from the event hook name.
-    $hookSubject = str_replace('jira:', '', $hookSubject);
-
-    if (!class_exists('App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller')) {
-        return Response(
-            json_encode(['ok' => false, 'message' => ucfirst($hookSubject) . 'Controller not found.']),
-            404
-        );
-    }
-
-    // i.e. CommentController@create
-    return $router->app->call(
-        'App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller@' . $hookAction,
-        [
-            'hook' => 'JIRA::' . $json['webhookEvent']
-        ]
-    );
 });

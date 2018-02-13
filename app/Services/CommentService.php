@@ -10,6 +10,7 @@ use App\Contracts\SubscriberInterface;
 use App\Helpers\JiraCommentHelper;
 use App\Services\Jira\JiraUserService;
 use App\Services\Slack\SlackMessageService;
+use App\SubscriberRepository;
 
 /**
  * Class CommentService
@@ -22,6 +23,9 @@ class CommentService implements CommentInterface
      */
     private $jiraUserService;
 
+    /**
+     * @var SubscriberRepository
+     */
     private $subscriber;
 
     /**
