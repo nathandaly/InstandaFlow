@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\SubscriberInterface;
 use App\SubscriberRepository;
+use Illuminate\Http\Request;
 
 /**
  * Class SubscriberController
@@ -25,30 +26,45 @@ class SubscriberController extends Controller
         $this->subscriberRepository = $subscriber;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function subscribe()
     {
         return response()->json(['ok' => true, 'message' => 'Successfully subscribed.']);
     }
 
-    public function unsubscribe(string $hash)
+    /**
+     * @param Request $request
+     * @param string $hash
+     * @return SubscriberController
+     */
+    public function unsubscribe(Request $request, string $hash)
     {
-        try {
-            $responseMessage = [
-                'ok' => true,
-                'message' => 'Successfully unsubscribed.'
-            ];
-            $decoded = base64_decode($hash);
-            $json = json_decode($decoded, true);
+        $view = view('subscriber.unsubscribe');
+        $saved = false;
 
-            $this->subscriberRepository->unsubscribe(
-                $json['email'],
-                $json['integration'],
-                $json['hook']
-            );
+        try {
+            $decoded = base64_decode($hash);
+            $variables = json_decode($decoded, true);
+
+            if ($request->isMethod(Request::METHOD_POST)) {
+                $saved = $this->subscriberRepository->unsubscribe(
+                    $variables['email'],
+                    $variables['integration'],
+                    $variables['hook']
+                );
+            }
         } catch (\Exception $e) {
-            $responseMessage =  ['ok' => false, 'message' => $e->getMessage()];
+            return $view->with(['success' => $saved])->withErrors(
+                $this->buildViewError([
+                        'unsubscribe' => $e->getMessage(),
+                    ],
+                $e
+                )
+            );
         }
 
-        return response()->json($responseMessage);
+        return $view->with($variables)->with(['success' => $saved]);
     }
 }

@@ -13,3 +13,4 @@ yarn-error.log
 .env
 .DS_Storeo
 /public/events/*
+!/public/events/index.php

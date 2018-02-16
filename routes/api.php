@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +15,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::post('/', function() {
+Route::post('/v1/jira', function() {
     $dir = base_path() . '/public/events';
     $json = json_decode(file_get_contents('php://input'), true);
     $hook = explode('_', $json['webhookEvent'], 2);

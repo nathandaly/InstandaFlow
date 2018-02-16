@@ -15,11 +15,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/phpinfo/credentials', function () {
+    echo phpinfo(); exit;
+});
+
+// Subscriber routes
 Route::get('/{hash}/unsubscribe', [
     'as' => 'unsubscribe',
     'uses' => 'SubscriberController@unsubscribe'
 ]);
 
-Route::get('/key', function() {
-    return str_random(32);
+Route::post('/{hash}/unsubscribe', [
+    'as' => 'unsubscribe',
+    'uses' => 'SubscriberController@unsubscribe'
+]);
+
+// Key generator route
+Route::get('/key/{length}', function($length) {
+    return str_random($length);
 });
+
+// Auth routes
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
