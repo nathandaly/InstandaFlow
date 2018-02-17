@@ -125,7 +125,7 @@ class CommentService implements CommentInterface
                                         'type' => 'button',
                                         'text' => 'Unsubscribe',
                                         'style' => 'danger',
-                                        'url' => 'http://localhost:8080/' . $unsubscribeHash . '/unsubscribe'
+                                        'url' => getenv('APP_URL') . '/' . $unsubscribeHash . '/unsubscribe'
                                     ]
                                 ]
                             ]
