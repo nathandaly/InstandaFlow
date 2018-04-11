@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Subscriber;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +64,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        // $newUser = User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
+
+        // Update all records in the subscribers table that match the new users email.
+        $subscribers = Subscriber::where('email', $data['email'])->get();
+
+        if ($subscribers->count()) {
+            echo '<pre>'; var_dump($subscribers->count()); exit;
+            $subscriber->update(['user_id' => 1]);
+        }
+
+        return $newUser;
     }
 }

@@ -15,7 +15,7 @@ class Unsubscribe extends Migration
     {
         Schema::create('unsubscribers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->string('email');
             $table->string('integration');
             $table->string('hook');
