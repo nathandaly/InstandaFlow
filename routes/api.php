@@ -30,26 +30,35 @@ Route::post('/v1/jira', function() {
       return $reponse;
     }
 
-    return redirectToControllerAction($hookSubject, $hookAction, $jsonResult['webhookEvent']);
+    return redirectToControllerAction('JIRA', $hookSubject, $hookAction, $jsonResult['webhookEvent']);
 });
 
 Route::post('/v1/vsts', function() {
     $jsonResult = json_decode(file_get_contents('php://input'), true);
+    $subjectPos = 1;
+    $actionPos = 2;
+
+    switch ($jsonResult['eventType']) {
+      case 'git.push':
+        $subjectPos = 0;
+        $actionPos = 1;
+        break;
+    }
 
     list($hookSubject, $hookAction) = recordEventInPublic(
         '/public/events/vsts',
         $jsonResult,
         'eventType',
         '.',
-        1,
-        2
+        $subjectPos,
+        $actionPos
     );
 
     if ($reponse = notFound($hookSubject)) {
       return $reponse;
     }
 
-    return redirectToControllerAction($hookSubject, $hookAction, $jsonResult['eventType']);
+    return redirectToControllerAction('VSTS', $hookSubject, $hookAction, $jsonResult['eventType']);
 });
 
 function recordEventInPublic(
@@ -98,13 +107,13 @@ function notFound(string $hookSubject) {
     return false;
 }
 
-function redirectToControllerAction(string $hookSubject, string $hookAction, string $event)
+function redirectToControllerAction(string $service, string $hookSubject, string $hookAction, string $event)
 {
     // i.e. CommentController@create
     return app()->call(
         'App\\Http\\Controllers\\' . ucfirst($hookSubject) . 'Controller@' . $hookAction,
         [
-            'hook' => 'VSTS::' . $event
+            'hook' => $service . '::' . $event
         ]
     );
 }
