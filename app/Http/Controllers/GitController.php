@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\CommentInterface;
-use App\Services\CommentService;
 use Illuminate\Http\Request;
 
 /**

@@ -54,18 +54,32 @@ Route::post('/v1/vsts', function() {
         $actionPos
     );
 
-    if ($reponse = notFound($hookSubject)) {
-      return $reponse;
+    if ($response = notFound($hookSubject)) {
+      return $response;
     }
 
     return redirectToControllerAction('VSTS', $hookSubject, $hookAction, $jsonResult['eventType']);
+});
+
+Route::post('/v1/octopus', function() {
+    $jsonResult = json_decode(file_get_contents('php://input'), true);
+    $dir = base_path() . '/public/events/octopus';
+
+    if (!file_exists(base_path() . '/public/events/octopus')) {
+        mkdir($dir, 0777, true);
+    }
+
+    file_put_contents(
+        $dir . '/deployment-test-' . (new DateTime())->format('Y-m-d_H:i:s') . '.json',
+        json_encode($jsonResult, JSON_PRETTY_PRINT)
+    );
 });
 
 function recordEventInPublic(
     string $dirString,
     array $jsonResult,
     string $webHookName,
-    string $seperator,
+    string $separator,
     int $subjectPos,
     int $actionPos
   ) : array {
@@ -76,7 +90,7 @@ function recordEventInPublic(
     }
 
     $json = json_decode(file_get_contents('php://input'), true);    
-    $hook = explode($seperator, $json[$webHookName], $actionPos + 1);
+    $hook = explode($separator, $json[$webHookName], $actionPos + 1);
     $hookSubject = $hook[$subjectPos];
     $hookAction = $hook[$actionPos];
 
@@ -89,7 +103,7 @@ function recordEventInPublic(
     }
 
     file_put_contents(
-        $dir . '/' . $hookSubject . '/' . $json[$webHookName] . '-' . (new DateTime())->format('Y-m-d_H:i:s') . '.json',
+        $dir . '/' . $hookSubject . '/' . $json[$webHookName] . '--' . (new DateTime())->format('U') . '.json',
         json_encode($json, JSON_PRETTY_PRINT)
     );
 

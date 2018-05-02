@@ -28,12 +28,13 @@ class CommentController extends Controller
 
     /**
      * @param Request $request
+     * @param $hook
      * @return \Illuminate\Http\JsonResponse
      */
     public function created(Request $request, $hook)
     {
         try {
-            $this->commentService->procesJiraCommentAndSendSlackMessage(
+            $this->commentService->processJiraCommentAndSendSlackMessage(
                 $request->input('issue.key'),
                 $request->input('issue.fields.issuetype.name'),
                 $request->input('issue.fields.summary'),

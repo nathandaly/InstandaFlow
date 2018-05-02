@@ -59,7 +59,7 @@ class CommentService implements CommentInterface
      * @param string|null $hook
      * @return void
      */
-    public function procesJiraCommentAndSendSlackMessage(
+    public function processJiraCommentAndSendSlackMessage(
         string $issueKey,
         string $issueType,
         string $issueSummary,
@@ -89,17 +89,17 @@ class CommentService implements CommentInterface
                 }
 
                 $mentionedUserEmail = $this->jiraUserService->getAuthorEmailFromUsername($mentionedUserKey[1]);
-                $appSubsriberKeys = explode('::', $hook, 2);
+                $appSubscriberKeys = explode('::', $hook, 2);
 
-                if (!$this->userAllowsNotifications($mentionedUserEmail, $appSubsriberKeys[0], $appSubsriberKeys[1])) {
+                if (!$this->userAllowsNotifications($mentionedUserEmail, $appSubscriberKeys[0], $appSubscriberKeys[1])) {
                     continue;
                 }
 
                 $slackUserId = $this->slackUserService->lookupUserByEmail($mentionedUserEmail);
                 $subscriberData = [
                   'email' => $mentionedUserEmail,
-                  'integration' => $appSubsriberKeys[0],
-                  'hook' => $appSubsriberKeys[1]
+                  'integration' => $appSubscriberKeys[0],
+                  'hook' => $appSubscriberKeys[1]
                 ];
                 $unsubscribeHash = base64_encode(json_encode($subscriberData));
                 $viewMessage = 'https://instanda.atlassian.net/browse/' . $issueKey . '?focusedCommentId=' . $commentId . '#comment-' . $commentId;

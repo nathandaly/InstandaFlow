@@ -37,7 +37,8 @@ class SubscriberController extends Controller
     /**
      * @param Request $request
      * @param string $hash
-     * @return SubscriberController
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function unsubscribe(Request $request, string $hash)
     {

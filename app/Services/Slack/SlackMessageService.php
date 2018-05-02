@@ -18,6 +18,7 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
      * @param string $text
      * @param array $options
      * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postMessageToUser(string $userId, string $text, array $options = []) : array
     {
@@ -29,6 +30,7 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
      * @param string $text
      * @return array
      * @throws SlackRequestException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function postMessageToChannel(string $channel, string $text) : array
     {
@@ -43,9 +45,10 @@ class SlackMessageService extends SlackService implements SlackMessageInterface
 
     /**
      * @param string $subject
-     * @param $text
+     * @param string $text
      * @param array $options
      * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function postMessage(string $subject, string $text, array $options = []) : array
     {

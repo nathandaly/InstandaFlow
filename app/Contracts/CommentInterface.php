@@ -17,7 +17,7 @@ interface CommentInterface
      * @param string $hook
      * @return mixed
      */
-    public function procesJiraCommentAndSendSlackMessage(
+    public function processJiraCommentAndSendSlackMessage(
         string $issueKey,
         string $issueType,
         string $issueSummary,

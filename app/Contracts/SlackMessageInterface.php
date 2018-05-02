@@ -11,6 +11,7 @@ interface SlackMessageInterface
     /**
      * @param string $userId
      * @param string $text
+     * @param array $options
      * @return array
      */
     public function postMessageToUser(string $userId, string $text, array $options = []): array;

@@ -8,4 +8,4 @@ if ($handle = opendir('.')) {
     }
 
     closedir($handle);
-}#
+}

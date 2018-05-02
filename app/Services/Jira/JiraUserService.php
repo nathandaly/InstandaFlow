@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
 class JiraUserService extends JiraService implements JiraUserInterface
 {
     /**
-     * @param $username
+     * @param string $username
      * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAuthorEmailFromUsername(string $username): string
     {
